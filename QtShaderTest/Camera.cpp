@@ -40,7 +40,7 @@ void Camera::move(int mouse_x, int mouse_y)
 }
 
 /**
- * Update projection matrix, and then, update the model view projection matrix.
+ * Update perspective projection matrix, and then, update the model view projection matrix.
  */
 void Camera::updatePMatrix(int width,int height) {
 	float aspect = (float)width / (float)height;
@@ -55,7 +55,7 @@ void Camera::updatePMatrix(int width,int height) {
 			    0,	0,		    				   -1,									0
 
 	};
-	pMatrix=QMatrix4x4(m);
+	pMatrix = QMatrix4x4(m);
 
 	updateMVPMatrix();
 }

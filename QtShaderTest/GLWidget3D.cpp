@@ -6,24 +6,24 @@ GLWidget3D::GLWidget3D()
 {
 }
 
-void GLWidget3D::mousePressEvent(QMouseEvent *event)
+void GLWidget3D::mousePressEvent(QMouseEvent *e)
 {
 	//lastPos = event->pos();
-	camera.mousePress(event->pos().x(), event->pos().y());
+	camera.mousePress(e->x(), e->y());
 }
 
-void GLWidget3D::mouseReleaseEvent(QMouseEvent *event)
+void GLWidget3D::mouseReleaseEvent(QMouseEvent *e)
 {
 }
 
-void GLWidget3D::mouseMoveEvent(QMouseEvent *event)
+void GLWidget3D::mouseMoveEvent(QMouseEvent *e)
 {
-	if (event->buttons() & Qt::LeftButton) { // Rotate
-		camera.rotate(event->pos().x(), event->pos().y());
-	} else if (event->buttons() & Qt::MidButton) { // Move
-		camera.move(event->pos().x(), event->pos().y());
-	} else if (event->buttons() & Qt::RightButton) { // Zoom
-		camera.zoom(event->pos().x(), event->pos().y());
+	if (e->buttons() & Qt::LeftButton) { // Rotate
+		camera.rotate(e->x(), e->y());
+	} else if (e->buttons() & Qt::MidButton) { // Move
+		camera.move(e->x(), e->y());
+	} else if (e->buttons() & Qt::RightButton) { // Zoom
+		camera.zoom(e->x(), e->y());
 	}
 
 	updateGL();
@@ -51,8 +51,6 @@ void GLWidget3D::initializeGL()
 	// load a triangle model
 	OBJLoader::load("models/triangle.obj", vertices);
 	createVAO(vertices, vao, vbo);
-
-	//camera.updateMVPMatrix();
 }
 
 /**
