@@ -84,8 +84,9 @@ void GLWidget3D::paintGL()
  */
 void GLWidget3D::drawScene()
 {
-	glUniform1i(glGetUniformLocation (shader.program, "mode"), 0x200|1);
-	glUniform1i(glGetUniformLocation (shader.program, "tex0"), 0);
+	// use color mode
+	glUniform1i(glGetUniformLocation (shader.program, "mode"), 1);
+	//glUniform1i(glGetUniformLocation (shader.program, "tex0"), 0);
 
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES,0,vertices.size());
@@ -111,17 +112,21 @@ void GLWidget3D::updateCamera()
 	glUniform3f(glGetUniformLocation(shader.program, "lightDir"),light_dir.x(),light_dir.y(),light_dir.z());
 }
 
+/**
+ * Create VAO according to the vertices
+ */
 void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo)
 {
+	// create vao and bind it
 	glGenVertexArrays(1,&vao);
 	glBindVertexArray(vao);
 
-	// Create VBO
+	// create VBO and tranfer the vertices data to GPU buffer
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);
 	
-	// Configure the attributes in the VAO.
+	// configure the attributes in the vao
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),0);
 	glEnableVertexAttribArray(1);
@@ -131,7 +136,7 @@ void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& v
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)(9*sizeof(float)));
 
-	// Bind back to the default state.
+	// unbind the vao
 	glBindVertexArray(0); 
 	glBindBuffer(GL_ARRAY_BUFFER,0);
 }
