@@ -97,10 +97,20 @@ void GLWidget3D::drawScene()
 {
 	// use color mode
 	glUniform1i(glGetUniformLocation(program, "mode"), 1);
-	//glUniform1i(glGetUniformLocation (shader.program, "tex0"), 0);
 
+	// use texture mode
+	/*
+	GLuint texture = loadTexture("textures/grass.jpg");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glUniform1i(glGetUniformLocation(program, "mode"), 2);
+	glUniform1i(glGetUniformLocation (program, "tex0"), 0);
+	*/
+
+	// bind the vao and draw it.
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	glBindVertexArray(0);
 }
 
 /**
@@ -139,4 +149,35 @@ void GLWidget3D::loadOBJ(const char* filename)
 {
 	OBJLoader::load(filename, vertices);
 	createVAO(vertices, vao, vbo);
+}
+
+GLuint GLWidget3D::loadTexture(const QString& filename)
+{
+	QImage img;
+	if (!img.load(filename)) {
+		printf("ERROR: loading %s\n",filename.toUtf8().data());
+		return INT_MAX;
+	}
+
+	QImage GL_formatted_image;
+	GL_formatted_image = QGLWidget::convertToGLFormat(img);
+	if (GL_formatted_image.isNull()) {
+		printf("ERROR: GL_formatted_image\n");
+		return INT_MAX;
+	}
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_formatted_image.width(), GL_formatted_image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image.bits());
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	return texture;
+
 }

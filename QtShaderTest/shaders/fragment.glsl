@@ -9,7 +9,7 @@ in vec3 varNormal;
 out vec4 outputF;
 
 // uniform variables
-uniform int mode;
+uniform int mode;	// 1 -- color / 2 -- texture
 uniform sampler2D tex0;
 uniform vec3 lightDir;
 

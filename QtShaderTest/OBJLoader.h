@@ -4,8 +4,6 @@
 #include <vector>
 #include "Vertex.h"
 
-//using namespace std;
-
 class OBJLoader
 {
 protected:
