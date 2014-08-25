@@ -151,6 +151,9 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="VBORenderManager.cpp" />
+    <ClCompile Include="VBOShader.cpp" />
+    <ClCompile Include="VBOUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MainWindow.h">
@@ -195,10 +198,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Camera2D.h" />
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h" />
     <ClInclude Include="GLWidget3D.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="VBORenderManager.h" />
+    <ClInclude Include="VBOShader.h" />
+    <ClInclude Include="VBOUtil.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
