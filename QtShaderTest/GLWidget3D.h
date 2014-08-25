@@ -14,7 +14,7 @@ public:
 	GLWidget3D();
 
 	void drawScene();
-	void createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo);
+	void createVAO(std::vector<Vertex>& vertices, GLuint& vao);
 	void loadOBJ(const QString& filename);
 	GLuint loadTexture(const QString& filename);
 
@@ -29,7 +29,6 @@ protected:
 private:
 	Camera camera;
 	GLuint vao;
-	GLuint vbo;
 	GLuint program;
 	std::vector<Vertex> vertices;
 };

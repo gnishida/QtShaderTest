@@ -8,7 +8,6 @@ GLWidget3D::GLWidget3D()
 
 void GLWidget3D::mousePressEvent(QMouseEvent *e)
 {
-	//lastPos = event->pos();
 	camera.mousePress(e->x(), e->y());
 }
 
@@ -50,7 +49,7 @@ void GLWidget3D::initializeGL()
 
 	// load a triangle model
 	OBJLoader::load("models/triangle.obj", vertices);
-	createVAO(vertices, vao, vbo);
+	createVAO(vertices, vao);
 }
 
 /**
@@ -116,13 +115,14 @@ void GLWidget3D::drawScene()
 /**
  * Create VAO according to the vertices.
  */
-void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo)
+void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao)
 {
 	// create vao and bind it
 	glGenVertexArrays(1,&vao);
 	glBindVertexArray(vao);
 
 	// create VBO and tranfer the vertices data to GPU buffer
+	GLuint vbo;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);
@@ -148,7 +148,7 @@ void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& v
 void GLWidget3D::loadOBJ(const QString& filename)
 {
 	OBJLoader::load(filename, vertices);
-	createVAO(vertices, vao, vbo);
+	createVAO(vertices, vao);
 }
 
 /**
