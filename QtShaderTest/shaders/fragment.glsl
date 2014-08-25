@@ -1,19 +1,30 @@
-varying vec3 normal;
-varying vec3 vertex_to_light_vector;
- 
+#version 330
+
+// varying variables
+in vec3 varColor;
+in vec3 varTexCoord;
+in vec3 varNormal;
+
+out vec4 outputF;
+
+// uniform variables
+uniform int mode;
+uniform sampler2D tex0;
+uniform vec3 lightDir;
+
 void main()
 {
-    // Defining The Material Colors
-    const vec4 AmbientColor = vec4(0.1, 0.0, 0.0, 1.0);
-    const vec4 DiffuseColor = vec4(1.0, 0.0, 0.0, 1.0);
- 
-    // Scaling The Input Vector To Length 1
-    vec3 normalized_normal = normalize(normal);
-    vec3 normalized_vertex_to_light_vector = normalize(vertex_to_light_vector);
- 
-    // Calculating The Diffuse Term And Clamping It To [0;1]
-    float DiffuseTerm = clamp(dot(normal, vertex_to_light_vector), 0.0, 1.0);
- 
-    // Calculating The Final Color
-    gl_FragColor = AmbientColor + DiffuseColor * DiffuseTerm;
+	outputF = vec4(varColor, 1.0);
+
+	if (mode == 2) { // texture
+		outputF = texture(tex0, varTexCoord.rg);
+	}
+
+	// lighting
+	//vec3 normal = varNormal;
+	vec4 ambient = vec4(0.2, 0.2, 0.2, 0.2);
+	vec4 diffuse = vec4(0.8, 0.8, 0.8, 0.8) * max(0.0, dot(-lightDir, varNormal));
+
+	outputF = (ambient + diffuse) * outputF;
 }
+

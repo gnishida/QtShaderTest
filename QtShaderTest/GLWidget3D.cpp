@@ -51,7 +51,7 @@ void GLWidget3D::initializeGL()
 		qDebug() << "Error: " << glewGetErrorString(err);
 	}
 
-	shader.createProgram("shaders/lc_vertex_sk.glsl", "shaders/lc_fragment_sk.glsl");
+	shader.createProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
 	glUseProgram(shader.program);
 
 	qglClearColor(QColor(113, 112, 117));
@@ -100,20 +100,10 @@ void GLWidget3D::updateCamera()
 
 	// update uniforms
 	float mvpMatrixArray[16];
-	float mvMatrixArray[16];
-
 	for(int i=0;i<16;i++){
 		mvpMatrixArray[i]=camera2D.mvpMatrix.data()[i];
-		mvMatrixArray[i]=camera2D.mvMatrix.data()[i];	
 	}
-	float normMatrixArray[9];
-	for(int i=0;i<9;i++){
-		normMatrixArray[i]=camera2D.normalMatrix.data()[i];
-	}
-
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "mvpMatrix"),  1, false, mvpMatrixArray);
-	glUniformMatrix4fv(glGetUniformLocation(shader.program, "mvMatrix"),  1, false, mvMatrixArray);
-	glUniformMatrix3fv(glGetUniformLocation(shader.program, "normalMatrix"),  1, false, normMatrixArray);
 
 	// update light position
 	QVector3D light_dir(-0.2, -0.1, -1);
