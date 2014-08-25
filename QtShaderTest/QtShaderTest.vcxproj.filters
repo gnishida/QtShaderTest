@@ -58,6 +58,9 @@
     <ClCompile Include="OBJLoader.cpp">
       <Filter>Main Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Main Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MainWindow.ui">
@@ -83,10 +86,10 @@
     <ClInclude Include="Shader.h">
       <Filter>Main Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2D.h">
+    <ClInclude Include="OBJLoader.h">
       <Filter>Main Files</Filter>
     </ClInclude>
-    <ClInclude Include="OBJLoader.h">
+    <ClInclude Include="Camera.h">
       <Filter>Main Files</Filter>
     </ClInclude>
   </ItemGroup>
