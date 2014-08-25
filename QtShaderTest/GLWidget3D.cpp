@@ -3,32 +3,25 @@
 #include <gl/GLU.h>
 #include "OBJLoader.h"
 
-GLWidget3D::GLWidget3D(MainWindow* mainWin) : QGLWidget(QGLFormat(QGL::SampleBuffers), (QWidget*)mainWin) {
-	this->mainWin = mainWin;
-
+GLWidget3D::GLWidget3D()
+{
 	camera2D.resetCamera();
-
 	camera2D.setRotation(0, 0, 0);
 	camera2D.setTranslation(0, 0, 10);
 }
 
-void GLWidget3D::mousePressEvent(QMouseEvent *event) {
-	this->setFocus();
-
+void GLWidget3D::mousePressEvent(QMouseEvent *event)
+{
 	lastPos = event->pos();
-
-	if (event->buttons() & Qt::LeftButton) {
-	}
 }
 
-void GLWidget3D::mouseReleaseEvent(QMouseEvent *event) {
-
+void GLWidget3D::mouseReleaseEvent(QMouseEvent *event)
+{
 	updateGL();
-
-	return;
 }
 
-void GLWidget3D::mouseMoveEvent(QMouseEvent *event) {
+void GLWidget3D::mouseMoveEvent(QMouseEvent *event)
+{
 	float dx = (float)(event->x() - lastPos.x());
 	float dy = (float)(event->y() - lastPos.y());
 
@@ -50,7 +43,8 @@ void GLWidget3D::mouseMoveEvent(QMouseEvent *event) {
 	updateGL();
 }
 
-void GLWidget3D::initializeGL() {
+void GLWidget3D::initializeGL()
+{
 	// init glew
 	GLenum err = glewInit();
 	if (err != GLEW_OK) {
@@ -61,7 +55,6 @@ void GLWidget3D::initializeGL() {
 	glUseProgram(shader.program);
 
 	qglClearColor(QColor(113, 112, 117));
-	//qglClearColor(QColor(0, 0, 0));
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -71,11 +64,13 @@ void GLWidget3D::initializeGL() {
 	updateCamera();
 }
 
-void GLWidget3D::resizeGL(int width, int height) {
+void GLWidget3D::resizeGL(int width, int height)
+{
 	updateCamera();
 }
 
-void GLWidget3D::paintGL() {
+void GLWidget3D::paintGL()
+{
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -85,9 +80,10 @@ void GLWidget3D::paintGL() {
 }
 
 /**
- * シーンを描画
+ * draw the scene
  */
-void GLWidget3D::drawScene() {	
+void GLWidget3D::drawScene()
+{
 	glUniform1i(glGetUniformLocation (shader.program, "mode"), 0x200|1);
 	glUniform1i(glGetUniformLocation (shader.program, "tex0"), 0);
 
@@ -95,10 +91,8 @@ void GLWidget3D::drawScene() {
 	glDrawArrays(GL_TRIANGLES,0,vertices.size());
 }
 
-// this method should be called after any camera transformation (perspective or modelview)
-// it will update viewport, perspective, view matrix, and update the uniforms
-void GLWidget3D::updateCamera(){
-	// update matrices
+void GLWidget3D::updateCamera()
+{
 	int height = this->height() ? this->height() : 1;
 	glViewport(0, 0, (GLint)this->width(), (GLint)this->height());
 	camera2D.updatePerspective(this->width(),height);
@@ -121,18 +115,18 @@ void GLWidget3D::updateCamera(){
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "mvMatrix"),  1, false, mvMatrixArray);
 	glUniformMatrix3fv(glGetUniformLocation(shader.program, "normalMatrix"),  1, false, normMatrixArray);
 
-	// light poss
+	// update light position
 	QVector3D light_dir(-0.2, -0.1, -1);
 	light_dir.normalize();
 	glUniform3f(glGetUniformLocation(shader.program, "lightDir"),light_dir.x(),light_dir.y(),light_dir.z());
-}//
+}
 
 void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo)
 {
 	glGenVertexArrays(1,&vao);
 	glBindVertexArray(vao);
 
-	// Crete VBO
+	// Create VBO
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);

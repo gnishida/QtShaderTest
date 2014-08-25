@@ -11,17 +11,14 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	static enum { MODE_DEFAULT = 0, MODE_PLACETYPE, MODE_BLOCK, MODE_PARCEL };
-
-public:
-	Ui::MainWindow ui;
-	GLWidget3D* glWidget;
-
-public:
 	MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
 
 public slots:
 	void onFileOpen();
+
+private:
+	Ui::MainWindow ui;
+	GLWidget3D* glWidget;
 };
 
 #endif // MAINWINDOW_H

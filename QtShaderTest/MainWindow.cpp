@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags) : QMainWindow(parent, 
 	connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
 	// setup the GL widget
-	glWidget = new GLWidget3D(this);
+	glWidget = new GLWidget3D();
 	setCentralWidget(glWidget);
 }
 

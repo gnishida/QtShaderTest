@@ -28,34 +28,27 @@ class MainWindow;
 
 class GLWidget3D : public QGLWidget {
 public:
-	MainWindow* mainWin;
-	Camera2D camera2D;
-
-	QPoint lastPos;
-
-	GLuint vao;
-	GLuint vbo;
-	Shader shader;
-	std::vector<Vertex> vertices;
-
-public:
-	GLWidget3D(MainWindow *parent);
+	GLWidget3D();
 
 	void drawScene();
-
 	void updateCamera();
-
 	void createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo);
 	void loadOBJ(const char* filename);
 
 protected:
 	void initializeGL();
-
 	void resizeGL(int width, int height);
 	void paintGL();    
-
 	void mousePressEvent(QMouseEvent *e);
 	void mouseMoveEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
+
+private:
+	Camera2D camera2D;
+	QPoint lastPos;
+	GLuint vao;
+	GLuint vbo;
+	Shader shader;
+	std::vector<Vertex> vertices;
 };
 
