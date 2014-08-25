@@ -19,13 +19,9 @@ public:
 
 public:
 	MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
-	~MainWindow();
-
-protected:
-	void keyPressEvent(QKeyEvent* e);
-	void keyReleaseEvent(QKeyEvent* e);
 
 public slots:
+	void onFileOpen();
 };
 
 #endif // MAINWINDOW_H

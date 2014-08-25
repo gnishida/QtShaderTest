@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags) : QMainWindow(parent, 
 	ui.setupUi(this);
 
 	// register the menu's action handlers
+	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(onFileOpen()));
 	connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
 	// setup the GL widget
@@ -13,15 +14,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags) : QMainWindow(parent, 
 	setCentralWidget(glWidget);
 }
 
-MainWindow::~MainWindow() {
-}
+void MainWindow::onFileOpen()
+{
+	QString filename = QFileDialog::getOpenFileName(this, tr("Open OBJ file..."), "", tr("OBJ Files (*.obj)"));
+	if (filename.isEmpty()) return;
 
-void MainWindow::keyPressEvent(QKeyEvent* e) {
-	glWidget->keyPressEvent(e);
+	glWidget->loadOBJ(filename.toUtf8().data());
+	glWidget->updateGL();
 }
-
-void MainWindow::keyReleaseEvent(QKeyEvent* e) {
-	glWidget->keyReleaseEvent(e);
-}
-
 

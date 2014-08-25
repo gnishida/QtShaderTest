@@ -17,14 +17,11 @@ This file is part of QtUrban.
 #pragma once
 
 #include <GL/glew.h>
-//#include "VBORenderManager.h"
 #include "Shader.h"
 #include "Vertex.h"
 
 #include <QGLWidget>
 #include <QMouseEvent>
-#include <QKeyEvent>
-//#include "Camera.h"
 #include "Camera2D.h"
 
 class MainWindow;
@@ -33,19 +30,9 @@ class GLWidget3D : public QGLWidget {
 public:
 	MainWindow* mainWin;
 	Camera2D camera2D;
-	//Camera* camera;
 
-	bool shiftPressed;
-	bool controlPressed;
-	bool altPressed;
-	bool keyMPressed;
 	QPoint lastPos;
-	float farPlaneToSpaceRadiusFactor;
-	float spaceRadius;
-	float rotationSensitivity;
-	float zoomSensitivity;
 
-	//VBORenderManager vboRenderManager;
 	GLuint vao;
 	GLuint vbo;
 	Shader shader;
@@ -53,20 +40,13 @@ public:
 
 public:
 	GLWidget3D(MainWindow *parent);
-	~GLWidget3D() {}
-
-	QSize minimumSizeHint() const;
-	QSize sizeHint() const;
-	void keyPressEvent(QKeyEvent* e);
-	void keyReleaseEvent(QKeyEvent* e);
-
-	void mouseTo2D(int x, int y, QVector2D &result);
 
 	void drawScene();
 
 	void updateCamera();
 
 	void createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo);
+	void loadOBJ(const char* filename);
 
 protected:
 	void initializeGL();

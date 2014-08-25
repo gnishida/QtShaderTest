@@ -66,7 +66,6 @@ void OBJLoader::load(const char* filename, std::vector<Vertex>& vertices)
 
 	vertices.resize(v_elements.size());
 	for (int i = 0; i < v_elements.size(); i+=3) {
-		printf("%d\n", i);
 		unsigned int ia = v_elements[i];
 		unsigned int ib = v_elements[i+1];
 		unsigned int ic = v_elements[i+2];
@@ -94,6 +93,12 @@ void OBJLoader::load(const char* filename, std::vector<Vertex>& vertices)
 				vertices[i+1].normal[j] = j == 0 ? normal.x() : (j == 1 ? normal.y() : normal.z());
 				vertices[i+2].normal[j] = j == 0 ? normal.x() : (j == 1 ? normal.y() : normal.z());
 			}
+		}
+
+		for (int j = 0; j < 3; ++j) {
+			vertices[i].color[j] = 1.0f;
+			vertices[i+1].color[j] = 1.0f;
+			vertices[i+2].color[j] = 1.0f;
 		}
 	}
 }

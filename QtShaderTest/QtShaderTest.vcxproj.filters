@@ -58,15 +58,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Main Files</Filter>
     </ClCompile>
-    <ClCompile Include="VBORenderManager.cpp">
-      <Filter>Main Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VBOShader.cpp">
-      <Filter>Main Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VBOUtil.cpp">
-      <Filter>Main Files</Filter>
-    </ClCompile>
     <ClCompile Include="OBJLoader.cpp">
       <Filter>Main Files</Filter>
     </ClCompile>
@@ -96,15 +87,6 @@
       <Filter>Main Files</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Main Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VBORenderManager.h">
-      <Filter>Main Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VBOShader.h">
-      <Filter>Main Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VBOUtil.h">
       <Filter>Main Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera2D.h">
