@@ -4,7 +4,6 @@
 in vec3 varColor;
 in vec3 varTexCoord;
 in vec3 varNormal;
-in vec3 varLightDir;
 
 // output color
 out vec4 outputF;
