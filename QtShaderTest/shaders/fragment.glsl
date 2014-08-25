@@ -4,6 +4,7 @@
 in vec3 varColor;
 in vec3 varTexCoord;
 in vec3 varNormal;
+in vec3 varLightDir;
 
 // output color
 out vec4 outputF;
@@ -25,6 +26,7 @@ void main()
 	// lighting
 	vec4 ambient = vec4(0.2, 0.2, 0.2, 0.2);
 	vec4 diffuse = vec4(0.8, 0.8, 0.8, 0.8) * max(0.0, dot(-lightDir, varNormal));
+
 	outputF = (ambient + diffuse) * outputF;
 }
 

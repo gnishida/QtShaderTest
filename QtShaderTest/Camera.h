@@ -25,10 +25,9 @@ private:
 	float zrot;
 	QVector2D mouse_pos;
 
+public:
 	QMatrix4x4 mvMatrix;
 	QMatrix4x4 pMatrix;
-
-public:
 	QMatrix4x4 mvpMatrix;
 };
 

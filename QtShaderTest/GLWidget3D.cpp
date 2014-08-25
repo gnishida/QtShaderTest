@@ -74,10 +74,13 @@ void GLWidget3D::paintGL()
 
 	// pass the model view projection matrix to the shader
 	float mvpMatrixArray[16];
+	float mvMatrixArray[16];
 	for (int i = 0; i < 16; ++i) {
 		mvpMatrixArray[i] = camera.mvpMatrix.data()[i];
+		mvMatrixArray[i] = camera.mvMatrix.data()[i];
 	}
 	glUniformMatrix4fv(glGetUniformLocation(program, "mvpMatrix"),  1, false, mvpMatrixArray);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mvMatrix"),  1, false, mvMatrixArray);
 
 	// pass the light direction to the shader
 	QVector3D light_dir(-0.2, -0.1, -1);
