@@ -15,9 +15,10 @@ uniform vec3 lightDir;
 
 void main()
 {
-	if (mode == 1) { // color mode
-		outputF = vec4(varColor, 1.0);
-	} else if (mode == 2) { // texture mode
+	// for color mode
+	outputF = vec4(varColor, 1.0);
+
+	if (mode == 2) { // for texture mode
 		outputF = texture(tex0, varTexCoord.rg);
 	}
 

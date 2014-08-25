@@ -2,21 +2,20 @@
 
 #include <GL/glew.h>
 #include <QMatrix4x4>
+#include <QVector2D>
 
 class Camera {
 public:
 	Camera();
 
-	void updatePerspective(int width,int height);
-	void updateCamMatrix();
-	void setXRotation(float angle);
-	void setYRotation(float angle);
-	void setZRotation(float angle);
-	void changeXRotation(float angle);
-	void changeYRotation(float angle);
-	void changeZRotation(float angle);
-	void setTranslation(float x, float y, float z);
-	void changeXYZTranslation(float dx, float dy, float dz);
+	void mousePress(int mouse_x, int mouse_y);
+	void rotate(int mouse_x, int mouse_y);
+	void zoom(int mouse_x, int mouse_y);
+	void move(int mouse_x, int mouse_y);
+	void updatePMatrix(int width,int height);
+
+private:
+	void updateMVPMatrix();
 
 private:
 	float fovy;
@@ -24,6 +23,7 @@ private:
 	float xrot;
 	float yrot;
 	float zrot;
+	QVector2D mouse_pos;
 
 	QMatrix4x4 mvMatrix;
 	QMatrix4x4 pMatrix;

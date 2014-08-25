@@ -27,7 +27,6 @@ protected:
 
 private:
 	Camera camera;
-	QPoint lastPos;
 	GLuint vao;
 	GLuint vbo;
 	GLuint program;

@@ -8,10 +8,41 @@ Camera::Camera() {
 	fovy = 60.0f;
 }
 
+void Camera::mousePress(int mouse_x, int mouse_y)
+{
+	mouse_pos = QVector2D(mouse_x, mouse_y);
+}
+
+void Camera::rotate(int mouse_x, int mouse_y)
+{
+	xrot += mouse_y - mouse_pos.y();
+	yrot += mouse_x - mouse_pos.x();
+	updateMVPMatrix();
+
+	mouse_pos = QVector2D(mouse_x, mouse_y);
+}
+
+void Camera::zoom(int mouse_x, int mouse_y)
+{
+	pos.setZ(pos.z() + mouse_pos.y() - mouse_y);
+	updateMVPMatrix();
+
+	mouse_pos = QVector2D(mouse_x, mouse_y);
+}
+
+void Camera::move(int mouse_x, int mouse_y)
+{
+	pos.setX(pos.x() - (mouse_x - mouse_pos.x()) * 0.1);
+	pos.setY(pos.y() + (mouse_y - mouse_pos.y()) * 0.1);
+	updateMVPMatrix();
+
+	mouse_pos = QVector2D(mouse_x, mouse_y);
+}
+
 /**
  * Update projection matrix, and then, update the model view projection matrix.
  */
-void Camera::updatePerspective(int width,int height) {
+void Camera::updatePMatrix(int width,int height) {
 	float aspect = (float)width / (float)height;
 	float zfar = 30000.0f;
 	float znear = 0.1f;
@@ -26,13 +57,13 @@ void Camera::updatePerspective(int width,int height) {
 	};
 	pMatrix=QMatrix4x4(m);
 
-	updateCamMatrix();
+	updateMVPMatrix();
 }
 
 /**
  * Update the model view projection matrix
  */
-void Camera::updateCamMatrix() {
+void Camera::updateMVPMatrix() {
 	// create model view matrix
 	mvMatrix.setToIdentity();
 	mvMatrix.translate(-pos);
@@ -42,36 +73,4 @@ void Camera::updateCamMatrix() {
 
 	// create model view projection matrix
 	mvpMatrix = pMatrix * mvMatrix;
-}
-
-void Camera::setXRotation(float angle) {
-	xrot = angle;			
-}
-
-void Camera::setYRotation(float angle) {
-	yrot = angle;			
-}
-
-void Camera::setZRotation(float angle) {
-	zrot = angle;			
-}
-
-void Camera::changeXRotation(float angle) {
-	setXRotation(xrot+angle);
-}
-
-void Camera::changeYRotation(float angle) {
-	setYRotation(yrot+angle);
-}
-
-void Camera::changeZRotation(float angle) {
-	setZRotation(zrot+angle);
-}
-
-void Camera::setTranslation(float x, float y, float z) {
-	pos = QVector3D(x, y, z);
-}
-
-void Camera::changeXYZTranslation(float dx, float dy, float dz) {
-	pos += QVector3D(dx, dy, dz);
 }

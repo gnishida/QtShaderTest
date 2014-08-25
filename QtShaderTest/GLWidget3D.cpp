@@ -8,7 +8,8 @@ GLWidget3D::GLWidget3D()
 
 void GLWidget3D::mousePressEvent(QMouseEvent *event)
 {
-	lastPos = event->pos();
+	//lastPos = event->pos();
+	camera.mousePress(event->pos().x(), event->pos().y());
 }
 
 void GLWidget3D::mouseReleaseEvent(QMouseEvent *event)
@@ -17,22 +18,12 @@ void GLWidget3D::mouseReleaseEvent(QMouseEvent *event)
 
 void GLWidget3D::mouseMoveEvent(QMouseEvent *event)
 {
-	float dx = (float)(event->x() - lastPos.x());
-	float dy = (float)(event->y() - lastPos.y());
-
 	if (event->buttons() & Qt::LeftButton) { // Rotate
-		camera.changeXRotation(dy);
-		camera.changeYRotation(dx);
-		camera.updateCamMatrix();
-		lastPos = event->pos();
+		camera.rotate(event->pos().x(), event->pos().y());
 	} else if (event->buttons() & Qt::MidButton) { // Move
-		camera.changeXYZTranslation(-dx*0.1, dy*0.1, 0);
-		camera.updateCamMatrix();
-		lastPos = event->pos();
+		camera.move(event->pos().x(), event->pos().y());
 	} else if (event->buttons() & Qt::RightButton) { // Zoom
-		camera.changeXYZTranslation(0, 0, -dy);
-		camera.updateCamMatrix();
-		lastPos = event->pos();
+		camera.zoom(event->pos().x(), event->pos().y());
 	}
 
 	updateGL();
@@ -61,14 +52,17 @@ void GLWidget3D::initializeGL()
 	OBJLoader::load("models/triangle.obj", vertices);
 	createVAO(vertices, vao, vbo);
 
-	camera.updateCamMatrix();
+	//camera.updateMVPMatrix();
 }
 
+/**
+ * This function is called whenever the widget has been resized.
+ */
 void GLWidget3D::resizeGL(int width, int height)
 {
 	height = height ? height : 1;
 	glViewport(0, 0, width, height);
-	camera.updatePerspective(width, height);
+	camera.updatePMatrix(width, height);
 }
 
 /**
