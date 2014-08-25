@@ -8,11 +8,17 @@ Camera::Camera() {
 	fovy = 60.0f;
 }
 
+/**
+ * Call this function when the mouse button is pressed.
+ */
 void Camera::mousePress(int mouse_x, int mouse_y)
 {
 	mouse_pos = QVector2D(mouse_x, mouse_y);
 }
 
+/**
+ * Call this function whenever the mouse moves while rotating the model.
+ */
 void Camera::rotate(int mouse_x, int mouse_y)
 {
 	xrot += mouse_y - mouse_pos.y();
@@ -22,6 +28,9 @@ void Camera::rotate(int mouse_x, int mouse_y)
 	mouse_pos = QVector2D(mouse_x, mouse_y);
 }
 
+/**
+ * Call this function whenever the mouse moves while zooming.
+ */
 void Camera::zoom(int mouse_x, int mouse_y)
 {
 	pos.setZ(pos.z() + mouse_pos.y() - mouse_y);
@@ -30,6 +39,9 @@ void Camera::zoom(int mouse_x, int mouse_y)
 	mouse_pos = QVector2D(mouse_x, mouse_y);
 }
 
+/**
+ * Call this function whenever the mouse moves while moving the model.
+ */
 void Camera::move(int mouse_x, int mouse_y)
 {
 	pos.setX(pos.x() - (mouse_x - mouse_pos.x()) * 0.1);

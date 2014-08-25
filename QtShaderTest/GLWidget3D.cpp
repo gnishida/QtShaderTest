@@ -6,15 +6,24 @@ GLWidget3D::GLWidget3D()
 {
 }
 
+/**
+ * This event handler is called when the mouse press events occur.
+ */
 void GLWidget3D::mousePressEvent(QMouseEvent *e)
 {
 	camera.mousePress(e->x(), e->y());
 }
 
+/**
+ * This event handler is called when the mouse release events occur.
+ */
 void GLWidget3D::mouseReleaseEvent(QMouseEvent *e)
 {
 }
 
+/**
+ * This event handler is called when the mouse move events occur.
+ */
 void GLWidget3D::mouseMoveEvent(QMouseEvent *e)
 {
 	if (e->buttons() & Qt::LeftButton) { // Rotate

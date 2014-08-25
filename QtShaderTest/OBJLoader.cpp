@@ -7,6 +7,9 @@
 #include <QStringList>
 #include <QFile>
 
+/**
+ * Load vertices data from a OBJ file.
+ */
 void OBJLoader::load(const QString& filename, std::vector<Vertex>& vertices)
 {
 	QFile file(filename);

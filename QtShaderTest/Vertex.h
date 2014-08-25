@@ -2,6 +2,9 @@
 
 #include <QVector3D>
 
+/**
+ * This structure defines a vertex data.
+ */
 struct Vertex {
 	float position[3];
 	float color[3];
