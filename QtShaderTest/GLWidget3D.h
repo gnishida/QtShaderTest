@@ -17,7 +17,9 @@ This file is part of QtUrban.
 #pragma once
 
 #include <GL/glew.h>
-#include "VBORenderManager.h"
+//#include "VBORenderManager.h"
+#include "Shader.h"
+#include "Vertex.h"
 
 #include <QGLWidget>
 #include <QMouseEvent>
@@ -43,7 +45,11 @@ public:
 	float rotationSensitivity;
 	float zoomSensitivity;
 
-	VBORenderManager vboRenderManager;
+	//VBORenderManager vboRenderManager;
+	GLuint vao;
+	GLuint vbo;
+	Shader shader;
+	std::vector<Vertex> vertices;
 
 public:
 	GLWidget3D(MainWindow *parent);
@@ -59,6 +65,8 @@ public:
 	void drawScene();
 
 	void updateCamera();
+
+	void createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo);
 
 protected:
 	void initializeGL();

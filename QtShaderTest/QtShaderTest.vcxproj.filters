@@ -55,9 +55,6 @@
     <ClCompile Include="GLWidget3D.cpp">
       <Filter>Main Files</Filter>
     </ClCompile>
-    <ClCompile Include="OBJLoader.cpp">
-      <Filter>Main Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Main Files</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
       <Filter>Main Files</Filter>
     </ClCompile>
     <ClCompile Include="VBOUtil.cpp">
+      <Filter>Main Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJLoader.cpp">
       <Filter>Main Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,9 +92,6 @@
     <ClInclude Include="GLWidget3D.h">
       <Filter>Main Files</Filter>
     </ClInclude>
-    <ClInclude Include="OBJLoader.h">
-      <Filter>Main Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Main Files</Filter>
     </ClInclude>
@@ -111,6 +108,9 @@
       <Filter>Main Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera2D.h">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJLoader.h">
       <Filter>Main Files</Filter>
     </ClInclude>
   </ItemGroup>

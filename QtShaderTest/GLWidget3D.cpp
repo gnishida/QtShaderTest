@@ -1,6 +1,7 @@
 ﻿#include "GLWidget3D.h"
 #include "MainWindow.h"
 #include <gl/GLU.h>
+#include "OBJLoader.h"
 
 GLWidget3D::GLWidget3D(MainWindow* mainWin) : QGLWidget(QGLFormat(QGL::SampleBuffers), (QWidget*)mainWin) {
 	this->mainWin = mainWin;
@@ -99,15 +100,18 @@ void GLWidget3D::initializeGL() {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-	//glPointSize(10.0f);
-
 	///
-	vboRenderManager.init();
+	//vboRenderManager.init();
+	shader.createProgram("shaders/lc_vertex_sk.glsl", "shaders/lc_fragment_sk.glsl");
+	glUseProgram(shader.program);
 
-	std::vector<Vertex> vertices;
-	//OBJLoader::load("models/cube.obj", vertices);
+	OBJLoader::load("models/cube.obj", vertices);
+	for (int i = 0; i < vertices.size(); ++i) {
+		vertices[i].color[0] = 1.0f;
+		vertices[i].color[1] = 0.0f;
+		vertices[i].color[2] = 0.0f;
+	}
+	/*
 	vertices.push_back(Vertex(QVector3D(-1, -1, 1), QVector3D(1, 0, 0), QVector3D(0, 0, 1), QVector3D(0, 0, 0)));
 	vertices.push_back(Vertex(QVector3D(1, -1, 1), QVector3D(1, 0, 0), QVector3D(0, 0, 1), QVector3D(0, 0, 0)));
 	vertices.push_back(Vertex(QVector3D(1, 1, 1), QVector3D(1, 0, 0), QVector3D(0, 0, 1), QVector3D(0, 0, 0)));
@@ -120,8 +124,8 @@ void GLWidget3D::initializeGL() {
 	vertices.push_back(Vertex(QVector3D(1, 1, -1), QVector3D(1, 0, 0), QVector3D(0, 1, 0), QVector3D(0, 0, 0)));
 	vertices.push_back(Vertex(QVector3D(-1, 1, -1), QVector3D(1, 0, 0), QVector3D(0, 1, 0), QVector3D(0, 0, 0)));
 	vertices.push_back(Vertex(QVector3D(-1, 1, 1), QVector3D(1, 0, 0), QVector3D(0, 1, 0), QVector3D(0, 0, 0)));
-	vboRenderManager.addStaticGeometry("test", vertices, "", GL_QUADS, mode_Lighting|1);
-
+	*/
+	createVAO(vertices, vao, vbo);
 
 	updateCamera();
 }
@@ -145,8 +149,13 @@ void GLWidget3D::paintGL() {
  * シーンを描画
  */
 void GLWidget3D::drawScene() {
-	vboRenderManager.renderStaticGeometry("test");
+	//vboRenderManager.renderStaticGeometry("test");
 	
+	glUniform1i (glGetUniformLocation (shader.program, "mode"), 0x200|1);
+	glUniform1i (glGetUniformLocation (shader.program, "tex0"), 0);//tex0: 0
+
+	glBindVertexArray(vao);
+	glDrawArrays(GL_TRIANGLES,0,vertices.size());
 }
 
 
@@ -240,13 +249,37 @@ void GLWidget3D::updateCamera(){
 		normMatrixArray[i]=camera2D.normalMatrix.data()[i];
 	}
 
-	glUniformMatrix4fv(glGetUniformLocation(vboRenderManager.program, "mvpMatrix"),  1, false, mvpMatrixArray);
-	glUniformMatrix4fv(glGetUniformLocation(vboRenderManager.program, "mvMatrix"),  1, false, mvMatrixArray);
-	glUniformMatrix3fv(glGetUniformLocation(vboRenderManager.program, "normalMatrix"),  1, false, normMatrixArray);
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "mvpMatrix"),  1, false, mvpMatrixArray);
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "mvMatrix"),  1, false, mvMatrixArray);
+	glUniformMatrix3fv(glGetUniformLocation(shader.program, "normalMatrix"),  1, false, normMatrixArray);
 
 	// light poss
-	QVector3D light_dir(-0.2, 0, -1);
+	QVector3D light_dir(-0.2, -0.1, -1);
 	light_dir.normalize();
-	glUniform3f(glGetUniformLocation(vboRenderManager.program, "lightDir"),light_dir.x(),light_dir.y(),light_dir.z());
+	glUniform3f(glGetUniformLocation(shader.program, "lightDir"),light_dir.x(),light_dir.y(),light_dir.z());
 }//
 
+void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo)
+{
+	glGenVertexArrays(1,&vao);
+	glBindVertexArray(vao);
+
+	// Crete VBO
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);
+	
+	// Configure the attributes in the VAO.
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)(3*sizeof(float)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)(6*sizeof(float)));
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)(9*sizeof(float)));
+
+	// Bind back to the default state.
+	glBindVertexArray(0); 
+	glBindBuffer(GL_ARRAY_BUFFER,0);
+}
