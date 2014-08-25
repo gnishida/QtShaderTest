@@ -145,12 +145,15 @@ void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& v
 /**
  * Load an OBJ file and create the corresponding VAO.
  */
-void GLWidget3D::loadOBJ(const char* filename)
+void GLWidget3D::loadOBJ(const QString& filename)
 {
 	OBJLoader::load(filename, vertices);
 	createVAO(vertices, vao, vbo);
 }
 
+/**
+ * Load an image file and create a texture object.
+ */
 GLuint GLWidget3D::loadTexture(const QString& filename)
 {
 	QImage img;
@@ -179,5 +182,4 @@ GLuint GLWidget3D::loadTexture(const QString& filename)
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	return texture;
-
 }

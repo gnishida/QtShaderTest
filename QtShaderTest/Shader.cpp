@@ -34,7 +34,7 @@ uint Shader::createProgram(const char *vertex_file, const char* fragment_file)
 	return program;
 }
 
-void Shader::loadTextFile(QString fileName, std::string& str)
+void Shader::loadTextFile(const QString& fileName, std::string& str)
 {
 	QFile file(fileName);
 	if (!file.open(QIODevice::ReadOnly)) {
@@ -55,16 +55,16 @@ void Shader::loadTextFile(QString fileName, std::string& str)
  * Load a shader from the source.
  * Specify the corresponding mode, GL_VERTEX_SHADER or GL_FRAGMENT_SHADER.
  */
-GLuint Shader::loadShader(std::string& source,uint mode)
+GLuint Shader::loadShader(std::string& source, GLuint mode)
 {
 	GLenum err;
 	uint id = glCreateShader(mode);
-	const char* csource=source.c_str();
+	const char* csource = source.c_str();
 	glShaderSource(id, 1, &csource, NULL);
 	glCompileShader(id);
 
 	int infologLength = 0;
-	glGetShaderiv(id, GL_INFO_LOG_LENGTH,&infologLength);
+	glGetShaderiv(id, GL_INFO_LOG_LENGTH, &infologLength);
 	if (infologLength > 1) {
 		char* infoLog = (char*)malloc(infologLength);
 		glGetShaderInfoLog(id, 1000, NULL, infoLog);

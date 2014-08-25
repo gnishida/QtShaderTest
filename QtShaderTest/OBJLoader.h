@@ -10,6 +10,6 @@ protected:
 	OBJLoader() {}
 
 public:
-	static void load(const char* filename, std::vector<Vertex>& vertices);
+	static void load(const QString& filename, std::vector<Vertex>& vertices);
 };
 

@@ -15,7 +15,7 @@ public:
 
 	void drawScene();
 	void createVAO(std::vector<Vertex>& vertices, GLuint& vao, GLuint& vbo);
-	void loadOBJ(const char* filename);
+	void loadOBJ(const QString& filename);
 	GLuint loadTexture(const QString& filename);
 
 protected:

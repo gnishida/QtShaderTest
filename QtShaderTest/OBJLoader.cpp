@@ -7,7 +7,7 @@
 #include <QStringList>
 #include <QFile>
 
-void OBJLoader::load(const char* filename, std::vector<Vertex>& vertices)
+void OBJLoader::load(const QString& filename, std::vector<Vertex>& vertices)
 {
 	QFile file(filename);
 	if (!file.open(QIODevice::ReadOnly)) {
