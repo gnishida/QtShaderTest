@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <glew.h>
 #include <QMatrix4x4>
 #include <QVector2D>
 

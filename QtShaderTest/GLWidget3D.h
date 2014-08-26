@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <glew.h>
 #include "Shader.h"
 #include "Vertex.h"
 #include <QGLWidget>
