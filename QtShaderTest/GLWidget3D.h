@@ -11,11 +11,9 @@ class MainWindow;
 
 class GLWidget3D : public QGLWidget {
 public:
-	GLWidget3D();
-
 	void drawScene();
-	void createVAO(std::vector<Vertex>& vertices, GLuint& vao);
 	void loadOBJ(const QString& filename);
+	void createVAO(std::vector<Vertex>& vertices, GLuint& vao);
 	GLuint loadTexture(const QString& filename);
 
 protected:

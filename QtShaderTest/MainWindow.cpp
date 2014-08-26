@@ -5,11 +5,10 @@
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags) : QMainWindow(parent, flags) {
 	ui.setupUi(this);
 
-	// register the menu's action handlers
 	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(onFileOpen()));
 	connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
-	// setup the GL widget
+	// setup the OpenGL widget
 	glWidget = new GLWidget3D();
 	setCentralWidget(glWidget);
 }

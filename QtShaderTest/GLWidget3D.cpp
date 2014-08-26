@@ -2,10 +2,6 @@
 #include "MainWindow.h"
 #include "OBJLoader.h"
 
-GLWidget3D::GLWidget3D()
-{
-}
-
 /**
  * This event handler is called when the mouse press events occur.
  */
@@ -122,6 +118,15 @@ void GLWidget3D::drawScene()
 }
 
 /**
+ * Load an OBJ file and create the corresponding VAO.
+ */
+void GLWidget3D::loadOBJ(const QString& filename)
+{
+	OBJLoader::load(filename, vertices);
+	createVAO(vertices, vao);
+}
+
+/**
  * Create VAO according to the vertices.
  */
 void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao)
@@ -149,15 +154,6 @@ void GLWidget3D::createVAO(std::vector<Vertex>& vertices, GLuint& vao)
 	// unbind the vao
 	glBindVertexArray(0); 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-/**
- * Load an OBJ file and create the corresponding VAO.
- */
-void GLWidget3D::loadOBJ(const QString& filename)
-{
-	OBJLoader::load(filename, vertices);
-	createVAO(vertices, vao);
 }
 
 /**
