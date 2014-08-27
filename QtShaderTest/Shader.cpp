@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <glew.h>
 #include "Shader.h"
 #include <iostream>
 #include <QFile>
